@@ -48,6 +48,7 @@ public:
                   Double_t b     = 0.);
 
    TStraightTrack(const TMatrixD &a, const TVector3 & x0, Double_t b = 0.);
+   TStraightTrack(const TVector3 &x1, const TVector3 &x2, Bool_t dir = kIterForward);
 
    virtual ~TStraightTrack() {}
 
@@ -67,6 +68,9 @@ public:
                        TMatrixD &F)  const;
 
 private:
+   void CalcStartHelix(const TVector3 &x1,
+                          const TVector3 &x2,
+                          Bool_t    dir = kIterForward);
 
    ClassDef(TStraightTrack,1)      // circle class
 };

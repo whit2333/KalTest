@@ -153,6 +153,9 @@ TVTrack &TKalTrackState::CreateTrack() const
    for (Int_t i=0; i<5; i++) a(i,0) = (*this)(i,0);
    Double_t bfield = static_cast<const TKalTrackSite &>(GetSite()).GetBfield();
 
+   //
+   // Alex:: straight track and helical track make difference here for LCTPC->fixme
+   //
    if (bfield == 0.) tkp = new TStraightTrack(a,fX0);
    else              tkp = new THelicalTrack(a,fX0, bfield);
 

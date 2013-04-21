@@ -51,6 +51,14 @@ TStraightTrack::TStraightTrack(const TMatrixD &a,
 {
 }
 
+TStraightTrack::TStraightTrack(const TVector3 &x1, 
+                             const TVector3 &x2,
+                                   Bool_t    dir)
+{
+   SetMagField(0.);
+   CalcStartHelix(x1,x2,dir);
+}
+
 //_____________________________________________________________________
 //  ----------------
 //  Utility methods
@@ -79,7 +87,7 @@ void TStraightTrack::MoveTo(const TVector3 &xv0to,
    Double_t cpa   = fKappa;
    Double_t dz    = fDz;
    Double_t tnl   = fTanL;
-                                                                                
+
    Double_t x0    = fX0.X();
    Double_t y0    = fX0.Y();
    Double_t z0    = fX0.Z();
@@ -236,6 +244,28 @@ TMatrixD TStraightTrack::CalcDxDphi(Double_t t) const
    dxdphi(2,0) =  fTanL;
 
    return dxdphi;
+}
+
+void TStraightTrack::CalcStartHelix(const TVector3 &x1,
+                                         const TVector3 &x2,
+                                         Bool_t    dir)
+{
+   TVector3 x12 = x2 - x1;
+   if (dir == kIterBackward) x12 *= -1;
+//   x12.SetZ(0.);
+//   Double_t x12mag = x12.Mag();
+//   x12 = x12.Unit();
+
+   TMatrixD sv(5,1);
+   sv(0,0) = 0;
+   sv(1,0) = M_PI/2. + TMath::ATan2( x12.Y() , x12.X());
+   while( sv(1,0) > M_PI ){ sv(1,0) -= 2. * M_PI ; }
+//   sv(2,0) = kInfinity;
+   sv(2,0) = 1.; // The value does not really matter here as it can not be determined from the helix - there is no helix
+   sv(3,0) = 0;
+   sv(4,0) = x12.Z() / x12.Perp();
+
+   SetTo(sv, x1);
 }
 
 void TStraightTrack::CalcDapDa(Double_t fid,
