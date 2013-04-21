@@ -99,7 +99,7 @@ public:
    inline virtual       Double_t   GetDz       () const { return fDz;    }
    inline virtual       Double_t   GetTanLambda() const { return fTanL;  }
    inline virtual const TVector3 & GetPivot    () const { return fX0;    }
-   inline virtual       Double_t   GetRho      () const { return fAlpha/fKappa; }
+   inline virtual       Double_t   GetRho      () const { return (fAlpha < kInfinity ?  fAlpha/fKappa : kInfinity ); }
    inline virtual       Double_t   GetPtoR     () const { return fAlpha; }
 
    // Setters
