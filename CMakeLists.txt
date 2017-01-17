@@ -13,7 +13,7 @@ PROJECT( KalTest )
 # project version
 SET( KalTest_VERSION_MAJOR 2 )
 SET( KalTest_VERSION_MINOR 2 )
-SET( KalTest_VERSION_PATCH 0 )
+SET( KalTest_VERSION_PATCH 1 )
 
 cmake_policy(SET CMP0008 NEW)  
 
@@ -22,6 +22,7 @@ cmake_policy(SET CMP0008 NEW)
 FIND_PACKAGE( ILCUTIL COMPONENTS ILCSOFT_CMAKE_MODULES REQUIRED )
 FIND_PACKAGE( ROOT REQUIRED COMPONENTS Eve)
 INCLUDE(${ROOT_USE_FILE})
+
 LINK_LIBRARIES( ${ROOT_COMPONENT_LIBRARIES} )
 INCLUDE(/opt/software/local/cmakemodules/MacroRootDict.cmake)
 
@@ -34,13 +35,16 @@ SET( ROOT_DICT_CINT_DEFINITIONS "-DHANDLE_DICT_EXCEPTIONS=IGNORED_FOR_CINT" )
 #INCLUDE( ${ROOT_DICT_MACROS_FILE} )
 INCLUDE(cmake/root.cmake)
 
+INCLUDE( MacroRootDict )
 
-### LIBRARY AND TOOLS #######################################################
 
 # require proper c++
 #ADD_DEFINITIONS( "-Wall -ansi -pedantic" )
 #----- need long long for int64 for now ------
 #ADD_DEFINITIONS( "-Wno-long-long -fno-strict-aliasing" )
+
+### LIBRARY AND TOOLS #######################################################
+
 
 #---- use 5 dimensional track state:
 OPTION( BUILD_WITH_T0_FIT "Set to ON to build with t0 fit (kSdim=6)" OFF )
