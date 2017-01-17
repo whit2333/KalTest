@@ -21,7 +21,9 @@ cmake_policy(SET CMP0008 NEW)
 
 FIND_PACKAGE( ILCUTIL COMPONENTS ILCSOFT_CMAKE_MODULES REQUIRED )
 FIND_PACKAGE( ROOT REQUIRED COMPONENTS Eve)
+INCLUDE(${ROOT_USE_FILE})
 LINK_LIBRARIES( ${ROOT_COMPONENT_LIBRARIES} )
+INCLUDE(/opt/software/local/cmakemodules/MacroRootDict.cmake)
 
 # load default settings from ILCSOFT_CMAKE_MODULES
 INCLUDE( ilcsoft_default_settings )
@@ -29,12 +31,11 @@ INCLUDE( ilcsoft_default_settings )
 
 # macros for generating root dict sources with rootcint
 SET( ROOT_DICT_CINT_DEFINITIONS "-DHANDLE_DICT_EXCEPTIONS=IGNORED_FOR_CINT" )
-INCLUDE( ${ROOT_DICT_MACROS_FILE} )
-
+#INCLUDE( ${ROOT_DICT_MACROS_FILE} )
+INCLUDE(cmake/root.cmake)
 
 
 ### LIBRARY AND TOOLS #######################################################
-
 
 # require proper c++
 #ADD_DEFINITIONS( "-Wall -ansi -pedantic" )

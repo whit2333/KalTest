@@ -11,17 +11,24 @@ ENDFOREACH()
 
 FOREACH( lib_input_dir ${lib_input_dirs} )
 
-    AUX_SOURCE_DIRECTORY( ${lib_input_dir} lib_sources )
+  AUX_SOURCE_DIRECTORY( ${lib_input_dir} lib_sources )
+  PREPARE_ROOT_DICT_HEADERS( ${lib_input_dir} )
 
-    PREPARE_ROOT_DICT_HEADERS( ${lib_input_dir} )
-
-    INSTALL_DIRECTORY( ${lib_input_dir}/ DESTINATION "include/kaltest"
-        FILES_MATCHING PATTERN "*.h" PATTERN "LinkDef.h" EXCLUDE
+  #INSTALL_DIRECTORY( ${lib_input_dir}/ DESTINATION "include/kaltest"
+  #  FILES_MATCHING PATTERN "*.h" PATTERN "LinkDef.h" EXCLUDE
+  #  )
+  INSTALL( DIRECTORY ${lib_input_dir}/ DESTINATION "include/kaltest"
+    FILES_MATCHING PATTERN "*.h" PATTERN "LinkDef.h" EXCLUDE
+    PATTERN "*~" EXCLUDE
+    PATTERN "*#*" EXCLUDE
+    PATTERN ".#*" EXCLUDE
+    PATTERN "*CVS" EXCLUDE
+    PATTERN "*.svn" EXCLUDE
     )
 
-    GEN_ROOT_DICT_SOURCES( ${lib_input_dir}Dict.cxx )
-    
-    LIST( APPEND lib_sources ${ROOT_DICT_OUTPUT_SOURCES} )
+  GEN_ROOT_DICT_SOURCES( ${lib_input_dir}Dict.cxx )
+
+  LIST( APPEND lib_sources ${ROOT_DICT_OUTPUT_SOURCES} )
 
 ENDFOREACH()
 

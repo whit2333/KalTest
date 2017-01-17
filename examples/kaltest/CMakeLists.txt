@@ -34,15 +34,18 @@ ENDMACRO( ADD_KALTEST_EXAMPLE )
 # ====== macro for adding new examples within KalTest =======================
 MACRO( ADD_KALTEST_ROOT_DICT_EXAMPLE _example _input_dir )
 
-    PREPARE_ROOT_DICT_HEADERS( ${_input_dir} )
+    FILE( GLOB headers "${_input_dir}/*.h")
+    FILE( GLOB linkdef "${_input_dir}/LinkDef.h")
+    list(REMOVE_ITEM headers ${linkdef} )
+  #PREPARE_ROOT_DICT_HEADERS( ${_input_dir} )
+  #GEN_ROOT_DICT_SOURCES( ${_example}Dict.cxx )
 
-    GEN_ROOT_DICT_SOURCES( ${_example}Dict.cxx )
-
+  ROOT_GENERATE_DICTIONARY(${_input_dir} ${headers} LINKDEF ${linkdef})
     #SET( sources )
-    #AUX_SOURCE_DIRECTORY( ${_input_dir} sources )
+    AUX_SOURCE_DIRECTORY( ${_input_dir} sources )
     FILE( GLOB sources "${_input_dir}/*.cxx" )
 
-    ADD_KALTEST_EXAMPLE( ${_example} ${ROOT_DICT_OUTPUT_SOURCES} ${sources} )
+    #    ADD_KALTEST_EXAMPLE( ${_example} ${ROOT_DICT_OUTPUT_SOURCES} ${sources} )
 
 ENDMACRO( ADD_KALTEST_ROOT_DICT_EXAMPLE )
 # ===========================================================================
